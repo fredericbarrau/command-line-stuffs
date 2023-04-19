@@ -20,8 +20,18 @@ $ gcloud projects get-iam-policy $GCLOUD_PROJECT  \
 
 ## Get the service account and their roles of all projects
 
-```
+```bash
 while read project;do
 gcloud iam service-accounts list --format="table(email)"|tail -n +2|xargs -n1 -I{} gcloud projects get-iam-policy $project --flatten="bindings[].members" --format='table(bindings.role)' --filter="bindings.members:{}"
 done < <(gcloud projects list --format="table(PROJECT_ID)"|tail -n +2)
+```
+
+
+## Get a secret value from secret manager
+
+
+```console
+$ SECRET_NAME=my-secret
+$ CLOUDSDK_CORE_PROJET=my-gcp-project
+$ gcloud secrets versions access --secret $SECRET_NAME latest
 ```
